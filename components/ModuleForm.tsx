@@ -82,10 +82,8 @@ export const ModuleForm: React.FC<ModuleFormProps> = ({ onSubmit }) => {
               onChange={handleChange}
               className="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 outline-none bg-white"
             >
-              <option value="NIP">NIP</option>
               <option value="NIY">NIY</option>
               <option value="NUPTK">NUPTK</option>
-              <option value="Lainnya">Lainnya</option>
             </select>
           </div>
 
@@ -294,10 +292,8 @@ export const ModuleForm: React.FC<ModuleFormProps> = ({ onSubmit }) => {
               onChange={handleChange}
               className="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 outline-none bg-white"
             >
-              <option value="NIP">NIP</option>
               <option value="NIY">NIY</option>
               <option value="NUPTK">NUPTK</option>
-              <option value="Lainnya">Lainnya</option>
             </select>
           </div>
 
