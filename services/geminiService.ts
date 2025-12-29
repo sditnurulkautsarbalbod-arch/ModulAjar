@@ -3,41 +3,44 @@ import { ModuleFormData, GeneratedModule } from "../types";
 
 // Helper untuk mendapatkan Client AI dengan Key yang dinamis
 const getAIClient = () => {
-  let apiKey = "";
+  // 1. Prioritas PERTAMA: Cek LocalStorage (Input Manual User)
+  // Ini memungkinkan user meng-override key server jika mereka ingin menggunakan key pribadi.
+  const customKey = localStorage.getItem("CUSTOM_GEMINI_API_KEY");
+  if (customKey && customKey.trim() !== "") {
+    return new GoogleGenAI({ apiKey: customKey });
+  }
 
-  // 1. Coba ambil dari process.env (Standard Node/Webpack/Prompt Requirement)
-  // Gunakan try-catch untuk mencegah ReferenceError jika process tidak ada
+  // 2. Prioritas KEDUA: Cek Environment Variable (Vercel / Server)
+  // Kita gunakan helper function agar aman di berbagai environment (Vite/Node)
+  let envKey = "";
+  
   try {
-    if (typeof process !== "undefined" && process.env && process.env.API_KEY) {
-      apiKey = process.env.API_KEY;
+    // Cek Vite (import.meta.env) - Standard untuk aplikasi ini
+    // @ts-ignore
+    if (typeof import.meta !== 'undefined' && import.meta.env) {
+       // @ts-ignore
+       envKey = import.meta.env.VITE_API_KEY || import.meta.env.VITE_GEMINI_API_KEY || "";
     }
-  } catch (e) {
-    // Ignore error
-  }
+  } catch (e) { /* ignore */ }
 
-  // 2. Jika tidak ada, coba ambil dari import.meta.env (Vite Standard)
-  // Akses secara aman
-  if (!apiKey) {
+  // Fallback: Cek Process Env (Node/Legacy) jika di Vite kosong
+  if (!envKey) {
     try {
-      const meta = import.meta as any;
-      if (meta && meta.env) {
-         apiKey = meta.env.VITE_API_KEY || meta.env.VITE_GEMINI_API_KEY || "";
+      // @ts-ignore
+      if (typeof process !== 'undefined' && process.env) {
+        // @ts-ignore
+        envKey = process.env.API_KEY || process.env.VITE_API_KEY;
       }
-    } catch (e) {
-      // Ignore error
-    }
+    } catch (e) { /* ignore */ }
   }
 
-  // 3. Fallback ke LocalStorage (User Custom Key)
-  if (!apiKey) {
-    apiKey = localStorage.getItem("CUSTOM_GEMINI_API_KEY") || "";
+  // Jika Environment Key ditemukan, gunakan itu
+  if (envKey) {
+    return new GoogleGenAI({ apiKey: envKey });
   }
 
-  if (!apiKey) {
-    throw new Error("API Key tidak ditemukan. Pastikan variabel environment API_KEY (atau VITE_API_KEY) telah diatur di Vercel, atau masukkan key manual di menu 'API Key'.");
-  }
-
-  return new GoogleGenAI({ apiKey });
+  // 3. Jika KEDUANYA tidak ada, lempar error
+  throw new Error("API Key tidak ditemukan. Silakan atur 'VITE_API_KEY' di Vercel atau masukkan Key Manual di menu 'API Key'.");
 };
 
 // Format date helper
@@ -227,7 +230,7 @@ export const generateModule = async (data: ModuleFormData): Promise<GeneratedMod
     console.error("Gemini Error:", error);
     // Custom error message for invalid key
     if (error.message && (error.message.includes("403") || error.message.includes("API key"))) {
-      throw new Error("API Key tidak valid atau kuota habis. Pastikan API Key Anda benar.");
+      throw new Error("API Key tidak valid atau kuota habis. Periksa 'API Key' di menu atau 'VITE_API_KEY' di Vercel.");
     }
     throw new Error("Gagal menghubungi layanan AI. Periksa koneksi atau API Key Anda.");
   }
