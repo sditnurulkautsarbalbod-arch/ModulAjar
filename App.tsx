@@ -3,7 +3,6 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { ModuleForm } from './components/ModuleForm';
 import { ModuleResult } from './components/ModuleResult';
-import { About } from './components/About';
 import { Help } from './components/Help';
 import { AdminDashboard } from './components/AdminDashboard';
 import { NotificationModal } from './components/NotificationModal';
@@ -26,7 +25,7 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isRevising, setIsRevising] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [currentView, setCurrentView] = useState<'home' | 'about' | 'help' | 'admin' | 'history'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'help' | 'admin' | 'history'>('home');
   
   // Notification States
   const [notificationSettings, setNotificationSettings] = useState<NotificationSettings>(DEFAULT_NOTIFICATION);
@@ -200,7 +199,6 @@ const App: React.FC = () => {
 
   const renderContent = () => {
       switch (currentView) {
-          case 'about': return <About />;
           case 'help': return <Help />;
           case 'history': return <History onSelectModule={handleLoadFromHistory} />;
           case 'admin': return (

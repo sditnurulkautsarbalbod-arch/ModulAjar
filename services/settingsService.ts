@@ -1,5 +1,6 @@
 // Mengambil URL dari Environment Variable
-const APPS_SCRIPT_URL = process.env.VITE_APPS_SCRIPT_URL || "";
+// Menggunakan process.env untuk menggantikan import.meta.env
+const APPS_SCRIPT_URL = process.env.APPS_SCRIPT_URL || "";
 
 export interface NotificationSettings {
   isActive: boolean;
@@ -9,7 +10,7 @@ export interface NotificationSettings {
 
 export const getSettingsFromCloud = async (): Promise<NotificationSettings | null> => {
   if (!APPS_SCRIPT_URL) {
-    console.warn("Apps Script URL belum diset di environment variable (VITE_APPS_SCRIPT_URL)");
+    console.warn("Apps Script URL belum diset di environment variable (APPS_SCRIPT_URL)");
     return null;
   }
 

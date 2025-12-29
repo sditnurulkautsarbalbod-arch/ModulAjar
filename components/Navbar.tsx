@@ -1,10 +1,10 @@
 import React from 'react';
-import { BookOpen, Sparkles, HelpCircle, Settings, History } from 'lucide-react';
+import { BookOpen, Key, Settings, History } from 'lucide-react';
 
 interface NavbarProps {
   onReset: () => void;
-  onNavigate: (view: 'home' | 'about' | 'help' | 'admin' | 'history') => void;
-  currentView: 'home' | 'about' | 'help' | 'admin' | 'history';
+  onNavigate: (view: 'home' | 'help' | 'admin' | 'history') => void;
+  currentView: 'home' | 'help' | 'admin' | 'history';
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ onReset, onNavigate, currentView }) => {
@@ -48,17 +48,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onReset, onNavigate, currentView
           </button>
 
           <button 
-            onClick={() => onNavigate('about')}
-            className={`text-sm font-medium transition-colors ${currentView === 'about' ? 'text-brand-600 font-bold' : 'text-slate-600 hover:text-brand-600'}`}
-          >
-            Tentang Kami
-          </button>
-          <button 
              onClick={() => onNavigate('help')}
              className={`text-sm font-medium transition-colors flex items-center gap-1 ${currentView === 'help' ? 'text-brand-600 font-bold' : 'text-slate-600 hover:text-brand-600'}`}
           >
-            <HelpCircle size={16} />
-            Bantuan
+            <Key size={16} />
+            API Key
           </button>
           
           <div className="h-6 w-px bg-slate-200 mx-2"></div>

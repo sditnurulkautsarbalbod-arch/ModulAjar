@@ -36,7 +36,7 @@ export const Help: React.FC = () => {
       {/* Header */}
       <div className="text-center space-y-4 mb-8">
         <h1 className="text-3xl md:text-4xl font-serif font-bold text-slate-900">
-          Pusat <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-indigo-600">Bantuan</span>
+          Pusat <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-indigo-600">API Key</span>
         </h1>
         <p className="text-lg text-slate-600 max-w-2xl mx-auto">
           Pengaturan API Key dan Solusi Kendala Pembuatan Modul

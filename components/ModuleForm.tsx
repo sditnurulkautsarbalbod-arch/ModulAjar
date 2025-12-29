@@ -140,12 +140,6 @@ export const ModuleForm: React.FC<ModuleFormProps> = ({ onSubmit }) => {
               <option value="Fase B (Kelas 4 SD)">Fase B (Kelas 4 SD)</option>
               <option value="Fase C (Kelas 5 SD)">Fase C (Kelas 5 SD)</option>
               <option value="Fase C (Kelas 6 SD)">Fase C (Kelas 6 SD)</option>
-              <option value="Fase D (Kelas 7 SMP)">Fase D (Kelas 7 SMP)</option>
-              <option value="Fase D (Kelas 8 SMP)">Fase D (Kelas 8 SMP)</option>
-              <option value="Fase D (Kelas 9 SMP)">Fase D (Kelas 9 SMP)</option>
-              <option value="Fase E (Kelas 10 SMA)">Fase E (Kelas 10 SMA)</option>
-              <option value="Fase F (Kelas 11 SMA)">Fase F (Kelas 11 SMA)</option>
-              <option value="Fase F (Kelas 12 SMA)">Fase F (Kelas 12 SMA)</option>
             </select>
           </div>
 

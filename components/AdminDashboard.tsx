@@ -38,8 +38,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ settings, onUpda
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Mengambil password dari environment variable, default ke 'admin123' jika tidak ada
-    const correctPassword = process.env.VITE_ADMIN_PASSWORD || 'admin123';
+    // Mengambil password dari environment variable, default ke 'admin123'
+    const correctPassword = process.env.ADMIN_PASSWORD || 'admin123';
     
     if (passwordInput === correctPassword) {
       setIsAuthenticated(true);

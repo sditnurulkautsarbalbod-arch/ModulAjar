@@ -3,7 +3,7 @@ import { ModuleFormData, GeneratedModule } from "../types";
 
 // Helper untuk mendapatkan Client AI dengan Key yang dinamis
 const getAIClient = () => {
-  // Menggunakan process.env.API_KEY sesuai panduan
+  // Mengikuti pedoman: API key harus diambil secara eksklusif dari process.env.API_KEY
   const apiKey = process.env.API_KEY;
 
   if (!apiKey) {
@@ -23,7 +23,7 @@ export const generateModule = async (data: ModuleFormData): Promise<GeneratedMod
   const formattedDate = formatDate(data.date);
 
   const prompt = `
-    Bertindaklah sebagai Konsultan Pendidikan Ahli Kurikulum Merdeka Indonesia (Spesialis SD/SMP/SMA).
+    Bertindaklah sebagai Konsultan Pendidikan Ahli Kurikulum Merdeka Indonesia (Spesialis SD).
     Tugas Anda adalah membuat "Modul Ajar" yang SANGAT LENGKAP, PROFESIONAL, PANJANG, dan SIAP CETAK.
     
     PENTING: 
