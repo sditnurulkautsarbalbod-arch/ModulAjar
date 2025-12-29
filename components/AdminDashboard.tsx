@@ -39,12 +39,27 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ settings, onUpda
     e.preventDefault();
     
     // Safely access env var
-    const getAdminPassword = () => {
-        const meta = import.meta as any;
-        return (meta && meta.env && meta.env.VITE_ADMIN_PASSWORD) ? meta.env.VITE_ADMIN_PASSWORD : 'admin123';
+    const getEnvVar = (key: string): string => {
+      try {
+        // @ts-ignore
+        if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env[key]) {
+          // @ts-ignore
+          return import.meta.env[key];
+        }
+      } catch (e) {}
+      
+      try {
+         // @ts-ignore
+         if (typeof process !== 'undefined' && process.env && process.env[key]) {
+           // @ts-ignore
+           return process.env[key];
+         }
+      } catch(e) {}
+      
+      return "";
     };
 
-    const correctPassword = getAdminPassword();
+    const correctPassword = getEnvVar('VITE_ADMIN_PASSWORD') || 'admin123';
     
     if (passwordInput === correctPassword) {
       setIsAuthenticated(true);

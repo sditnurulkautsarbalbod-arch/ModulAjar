@@ -1,20 +1,30 @@
 // Mengambil URL dari Environment Variable
 // Menggunakan import.meta.env untuk Vite (Browser environment)
 // Fix: Akses env secara aman untuk mencegah crash "Cannot read properties of undefined"
-const getEnvVar = () => {
+
+const getEnvVar = (key: string): string => {
+  // 1. Coba import.meta.env (Vite)
   try {
-    const meta = import.meta as any;
-    // Cek apakah meta.env ada sebelum mengakses propertinya
-    if (meta && meta.env && meta.env.VITE_APPS_SCRIPT_URL) {
-      return meta.env.VITE_APPS_SCRIPT_URL;
+    // @ts-ignore
+    if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env[key]) {
+      // @ts-ignore
+      return import.meta.env[key];
     }
-  } catch (e) {
-    // Ignore error
-  }
+  } catch (e) {}
+
+  // 2. Coba process.env (Node/Webpack)
+  try {
+    // @ts-ignore
+    if (typeof process !== 'undefined' && process.env && process.env[key]) {
+      // @ts-ignore
+      return process.env[key];
+    }
+  } catch (e) {}
+
   return "";
 };
 
-const APPS_SCRIPT_URL = getEnvVar();
+const APPS_SCRIPT_URL = getEnvVar('VITE_APPS_SCRIPT_URL') || getEnvVar('APPS_SCRIPT_URL');
 
 export interface NotificationSettings {
   isActive: boolean;
