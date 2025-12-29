@@ -214,7 +214,7 @@ export const ModuleForm: React.FC<ModuleFormProps> = ({ onSubmit }) => {
             <input
               type="text"
               name="topic"
-              placeholder="Contoh: Bagian Tubuh Tumbuhan"
+              placeholder="Contoh: Ada Apa Saja di Bumi Kita?"
               value={formData.topic}
               onChange={handleChange}
               className="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 outline-none"
