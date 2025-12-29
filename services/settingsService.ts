@@ -1,6 +1,20 @@
 // Mengambil URL dari Environment Variable
-// Menggunakan process.env untuk menggantikan import.meta.env
-const APPS_SCRIPT_URL = process.env.APPS_SCRIPT_URL || "";
+// Menggunakan import.meta.env untuk Vite (Browser environment)
+// Fix: Akses env secara aman untuk mencegah crash "Cannot read properties of undefined"
+const getEnvVar = () => {
+  try {
+    const meta = import.meta as any;
+    // Cek apakah meta.env ada sebelum mengakses propertinya
+    if (meta && meta.env && meta.env.VITE_APPS_SCRIPT_URL) {
+      return meta.env.VITE_APPS_SCRIPT_URL;
+    }
+  } catch (e) {
+    // Ignore error
+  }
+  return "";
+};
+
+const APPS_SCRIPT_URL = getEnvVar();
 
 export interface NotificationSettings {
   isActive: boolean;
@@ -10,7 +24,7 @@ export interface NotificationSettings {
 
 export const getSettingsFromCloud = async (): Promise<NotificationSettings | null> => {
   if (!APPS_SCRIPT_URL) {
-    console.warn("Apps Script URL belum diset di environment variable (APPS_SCRIPT_URL)");
+    // Silent fail jika URL belum diset agar tidak mengganggu flow utama jika fitur ini opsional
     return null;
   }
 

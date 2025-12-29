@@ -3,11 +3,38 @@ import { ModuleFormData, GeneratedModule } from "../types";
 
 // Helper untuk mendapatkan Client AI dengan Key yang dinamis
 const getAIClient = () => {
-  // Mengikuti pedoman: API key harus diambil secara eksklusif dari process.env.API_KEY
-  const apiKey = process.env.API_KEY;
+  let apiKey = "";
+
+  // 1. Coba ambil dari process.env (Standard Node/Webpack/Prompt Requirement)
+  // Gunakan try-catch untuk mencegah ReferenceError jika process tidak ada
+  try {
+    if (typeof process !== "undefined" && process.env && process.env.API_KEY) {
+      apiKey = process.env.API_KEY;
+    }
+  } catch (e) {
+    // Ignore error
+  }
+
+  // 2. Jika tidak ada, coba ambil dari import.meta.env (Vite Standard)
+  // Akses secara aman
+  if (!apiKey) {
+    try {
+      const meta = import.meta as any;
+      if (meta && meta.env) {
+         apiKey = meta.env.VITE_API_KEY || meta.env.VITE_GEMINI_API_KEY || "";
+      }
+    } catch (e) {
+      // Ignore error
+    }
+  }
+
+  // 3. Fallback ke LocalStorage (User Custom Key)
+  if (!apiKey) {
+    apiKey = localStorage.getItem("CUSTOM_GEMINI_API_KEY") || "";
+  }
 
   if (!apiKey) {
-    throw new Error("API Key tidak ditemukan. Pastikan variabel environment API_KEY telah diatur.");
+    throw new Error("API Key tidak ditemukan. Pastikan variabel environment API_KEY (atau VITE_API_KEY) telah diatur di Vercel, atau masukkan key manual di menu 'API Key'.");
   }
 
   return new GoogleGenAI({ apiKey });
