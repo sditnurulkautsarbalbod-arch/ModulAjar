@@ -66,7 +66,7 @@ export const ModuleForm: React.FC<ModuleFormProps> = ({ onSubmit }) => {
             <input
               type="text"
               name="teacherName"
-              placeholder="Contoh: M. Anshar Gaffar, S.Sos"
+              placeholder="Contoh: Muhammad Rate, S.Pd"
               value={formData.teacherName}
               onChange={handleChange}
               className="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 outline-none"
